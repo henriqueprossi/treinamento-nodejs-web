@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> <%= titulo %> - <%= resultado %> </title>
+    </head>
+    <body>
+        <header>
+            <h1>Controle de Acesso</h1>
+            <h4>Fornecer o código de acesso</h4>
+        </header>
+        <section>
+            <form action="/intro" method="post">
+                Código:
+                <br/>
+                <input type="text" name="codigo" placeholder="Código">
+                <br>
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
+        <footer>
+            <small>Sistema de Controle de Acesso - Express</small>
+        </footer>
+    </body>
+</html>
