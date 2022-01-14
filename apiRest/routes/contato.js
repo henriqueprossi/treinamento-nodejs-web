@@ -73,13 +73,28 @@ module.exports = function (app) {
     app.delete('/contatos/:id', function (request, response) {
         var id = request.params.id;
         console.log('DELETE - id: ', id);
-        Contato.deleteOne({ _id: id }, function (error, contato) {
-            if (error) {
-                console.log('DELETE - error: ', error);
-                response.json(error);
+        // Contato.deleteOne({ _id: id }, function (error, contato) {
+        //     if (error) {
+        //         console.log('DELETE - error: ', error);
+        //         response.json(error);
+        //     } else {
+        //         console.log('DELETE success id: ', id);
+        //         response.send(`removido id ${id}`);
+        //     }
+        // });
+
+        Contato.findById(id, function (erro, contato) {
+            if (erro) {
+                console.info("Erro: " + erro);
+                response.send(erro);
             } else {
-                console.log('DELETE success id: ', id);
-                response.send(`removido id ${id}`);
+                if (contato) {
+                    contato.deleteOne();
+                    response.send('removido');
+                } else {
+                    console.log('contato não definido');
+                    response.send('contato não definido');
+                }
             }
         });
     });
