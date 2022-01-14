@@ -6,4 +6,6 @@ module.exports = function (app) {
         telefone: String
     });
     return db.model('contatos', contato);
+    //var mongoose = require('mongoose');
+    //return mongoose.model('contatos', contato);
 };
