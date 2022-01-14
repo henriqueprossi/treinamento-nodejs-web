@@ -73,7 +73,7 @@ module.exports = function (app) {
     app.delete('/contatos/:id', function (request, response) {
         var id = request.params.id;
         console.log('DELETE - id: ', id);
-        Contato.remove({ '_id': id }, function (error, contato) {
+        Contato.deleteOne({ _id: id }, function (error, contato) {
             if (error) {
                 console.log('DELETE - error: ', error);
                 response.json(error);
