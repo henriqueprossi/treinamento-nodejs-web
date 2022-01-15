@@ -31,7 +31,7 @@ load('models')
     .then('models')
     .into(app);
 
-const port = 3000;
+const port = 3200;
 
 app.listen(port, function () {
     console.log(`Servidor rodando na porta ${port}`);
