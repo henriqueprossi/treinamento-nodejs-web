@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html ng-app="appAngular">
-<html>
 
 <head>
     <meta charset="UTF-8">
@@ -16,8 +15,9 @@
             margin: 10px;
         }
     </style>
-    <title>Aplicação AngularJS</title>
+    <title>Aplicação
 </head>
+AngularJS</title>
 
 <body ng-controller="Principal as ctl">
     <h1>Cadastro e Consulta de Eventos</h1>
@@ -33,19 +33,35 @@
         <tbody>
             <tr ng-repeat="evento in ctl.items">
                 <td>{{evento.descricao}}</td>
-                <td>{{evento.data}}</td>
-                <td>{{evento.preco}}</td>
+                <td>{{evento.data | date:'dd/MM/yyyy'}}</td>
+                <td>{{evento.preco | currency}}</td>
             </tr>
         </tbody>
     </table>
+    <h2>Inclusão de um novo evento</h2>
+    <div>
+        <form name="incluirForm" ng-submit="ctl.adicionar()">
+            Descrição do evento:<br />
+            <input type="text" ng-model="ctl.novoEvento.descricao" />
+            <br />Data (dd/mm/yyyy):<br />
+            <input type="date" ng-model="ctl.novoEvento.data" />
+            <br />Preço:<br />
+            <input type="text" ng-model="ctl.novoEvento.preco" />
+            <br />
+            <input type="submit" value="Adicionar" />
+        </form>
+    </div>
 
     <script src="/javascripts/angular.js"></script>
     <script type="text/javascript">
+
         angular.module("appAngular", [])
             .controller('Principal', ['$http', function ($http) {
+
                 var self = this;
                 self.items = [];
-                
+                self.novoEvento = {};
+
                 var listarTodos = function () {
                     return $http.get('http://localhost:3200/eventos/')
                         .then(function (response) {
@@ -54,7 +70,21 @@
                             alert('Erro reportado: ' + error);
                         });
                 };
+
                 listarTodos();
+
+                self.adicionar = function () {
+                    $http({
+                        url: 'http://localhost:3200/eventos/',
+                        method: 'POST',
+                        data: self.novoEvento,
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(function (response) {
+                        self.novoEvento = {};
+                    }, function (error) {
+                        alert('Erro reportado: ' + error);
+                    }).then(listarTodos);
+                };
             }]);
     </script>
 </body>
