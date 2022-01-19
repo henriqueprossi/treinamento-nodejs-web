@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Cadastro de Eventos</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+
+<body>
+    <header>
+        <p>Bem-vindo, <%= usuario.nome %>
+        </p>
+        <h1>Lista de Eventos do Webservice</h1>
+    </header>
+    <section>
+        <!--será implementado em breve-->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Data</th>
+                    <th>Preço</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% eventos.forEach(function(evento, index) { %>
+                    <tr>
+                        <td>
+                            <%= evento.descricao %>
+                        </td>
+                        <td>
+                            <p><%= evento.data.toDateString() %></p>
+                        </td>
+                        <td>
+                            R$ <%= evento.preco %>
+                        </td>
+                        <td>
+                            <a href="/pagamento/<%= evento.descricao %>/<%= evento.preco %>">
+                                comprar este evento</a>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </section>
+    <section>
+        <a href='/menu'>Voltar ao menu</a>
+    </section>
+    <footer>
+        <small>Sistema de Cadastro de Eventos e Convidados</small>
+    </footer>
+</body>
+
+</html>

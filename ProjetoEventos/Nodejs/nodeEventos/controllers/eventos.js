@@ -1,5 +1,6 @@
 module.exports = function (app) {
     var Evento = app.models.eventos;
+    var http = require('http');
     return {
         menu: function (request, response) {
             var usuario = request.session.usuario,
@@ -16,11 +17,6 @@ module.exports = function (app) {
                 params = { usuario: usuario };
             response.render('eventos/cadEvento', params);
         },
-        // listaEventos: function (request, response) {
-        //     var usuario = request.session.usuario,
-        //         params = { usuario: usuario };
-        //     response.render('eventos/listaEventos', params);
-        // },
         listaEventos: function (request, response) {
             Evento.find(function (erro, eventos) {
                 if (erro) {
@@ -32,12 +28,28 @@ module.exports = function (app) {
                 }
             });
         },
+        listaEventosWS: function (request, response) {
+            //array para conter os eventos
+            var eventos = [];
+            //informações da requisição GET
+            var info = {
+                host: 'localhost',
+                port: '3200',
+                path: '/eventos',
+                method: 'GET'
+            };
+            //chamando o serviço
+            http.request(info, function (res) {
+                res.setEncoding('utf8');
+                res.on('data', function (data) {
+                    eventos = JSON.parse(data);
+                    var usuario = request.session.usuario,
+                        params = { usuario: usuario, eventos: eventos };
+                    response.render('eventos/listaEventosWS', params);
+                });
+            }).end();
+        },
         //cadastro de eventos
-        // novoEvento: function (request, response) {
-        //     console.log('novoEvento');
-        //     //código a ser implementado
-        //     response.redirect('/menu');
-        // }
         novoEvento: function (request, response) {
             var evento = request.body.evento;
             if (evento.descricao.trim().length == 0 || evento.data == 'undefined' || evento.preco.trim().length == 0) {
@@ -51,6 +63,53 @@ module.exports = function (app) {
                     }
                 });
             }
+        },
+        pagamento: function (request, response) {
+            var evento = request.params.evento,
+                preco = request.params.preco,
+                usuario = request.session.usuario,
+                params = {
+                    usuario: usuario, evento: evento,
+                    preco: preco
+                };
+            response.render('eventos/pagamento', params);
+        },
+        novoPagamento: function (request, response) {
+            //a ser implementado
+            var cartao = request.body.cartao;
+            var cartaoPost = JSON.stringify({
+                'evento': cartao.evento,
+                'preco': cartao.preco,
+                'numcartao': cartao.numcartao,
+                'cvv': cartao.cvv
+            });
+            //informações da requisição POST
+            var info = {
+                host: 'localhost',
+                port: '3200',
+                path: '/pagamentos',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Content-Length': cartaoPost.length
+                }
+            };
+
+            //definição do pbjeto para requisição POST
+            var reqPost = http.request(info, function (res) {
+                res.on('data', function (data) {
+                    console.log('Incluindo registros:\n');
+                    process.stdout.write(data);
+                    console.log('\n\nHTTP POST Concluído');
+                });
+            });
+            //Gravação dos dados
+            reqPost.write(cartaoPost);
+            response.redirect('/menu');
+            reqPost.end();
+            reqPost.on('error', function (e) {
+                console.error(e);
+            });
         }
     }
 };
