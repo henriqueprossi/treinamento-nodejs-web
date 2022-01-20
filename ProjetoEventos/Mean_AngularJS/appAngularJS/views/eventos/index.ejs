@@ -15,9 +15,8 @@
             margin: 10px;
         }
     </style>
-    <title>Aplicação
+    <title>Aplicação AngularJS</title>
 </head>
-AngularJS</title>
 
 <body ng-controller="Principal as ctl">
     <h1>Cadastro e Consulta de Eventos</h1>
@@ -52,41 +51,9 @@ AngularJS</title>
         </form>
     </div>
 
-    <script src="/javascripts/angular.js"></script>
-    <script type="text/javascript">
+    <script src="/javascripts/angular.min.js"></script>
+    <script src="/javascripts/controllerPrincipal.js"></script>
 
-        angular.module("appAngular", [])
-            .controller('Principal', ['$http', function ($http) {
-
-                var self = this;
-                self.items = [];
-                self.novoEvento = {};
-
-                var listarTodos = function () {
-                    return $http.get('http://localhost:3200/eventos/')
-                        .then(function (response) {
-                            self.items = response.data;
-                        }, function (error) {
-                            alert('Erro reportado: ' + error);
-                        });
-                };
-
-                listarTodos();
-
-                self.adicionar = function () {
-                    $http({
-                        url: 'http://localhost:3200/eventos/',
-                        method: 'POST',
-                        data: self.novoEvento,
-                        headers: { 'Content-Type': 'application/json' }
-                    }).then(function (response) {
-                        self.novoEvento = {};
-                    }, function (error) {
-                        alert('Erro reportado: ' + error);
-                    }).then(listarTodos);
-                };
-            }]);
-    </script>
 </body>
 
 </html>
