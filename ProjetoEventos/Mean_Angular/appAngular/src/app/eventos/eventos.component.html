@@ -1,0 +1,16 @@
+<h1>Lista de eventos</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Descrição</th>
+            <th>Valor</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let evento of eventos">
+            <td>{{ evento.descricao }}</td>
+            <td>{{ evento.preco }}</td>
+        </tr>
+    </tbody>
+    
+</table>
