@@ -9,7 +9,7 @@ import { EventosService } from '../services/eventos.service';
 })
 export class EventosComponent implements OnInit {
 
-    public eventos: Evento[] = new Array();
+    public eventos: Evento[] = [];
     //public eventos: Evento[] = new Array();
 
     constructor(private service: EventosService) { }
@@ -18,7 +18,7 @@ export class EventosComponent implements OnInit {
         this.service.findAll().subscribe( (resposta) => {
             console.log(resposta);
             this.eventos = resposta;
-            alert(this.eventos.length);
+            //alert(this.eventos.length);
         });
     }
 }
