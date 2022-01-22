@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -94,16 +95,18 @@ app.put('/eventos/:id', function (request, response) {
 
 app.delete('/eventos/:id', function (request, response) {
     var id = request.params.id;
+
     Evento.findById(id, function (erro, evento) {
         if (erro) {
             response.json(erro);
         } else {
-            Evento.remove(evento, function (erro, evento) {
+            // response.json(evento);
+            Evento.deleteOne(evento, function (erro, evento) {
                 if (erro) {
                     response.json(erro);
                 }
                 else {
-                    response.send('removido');
+                    response.json('removido');
                 }
             });
         }
