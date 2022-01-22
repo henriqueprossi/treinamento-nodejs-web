@@ -8,6 +8,7 @@ import { EventosComponent } from './eventos/eventos.component';
 import { PagamentosComponent } from './pagamentos/pagamentos.component';
 import { HomeComponent } from './home/home.component';
 import { IonicModule } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { IonicModule } from '@ionic/angular';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    IonicModule.forRoot()
+    IonicModule.forRoot(),
+    FormsModule
   ],
   providers: [HttpClient],
   bootstrap: [AppComponent]

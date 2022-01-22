@@ -313,6 +313,30 @@ ul {
             text-align: center;
             font-weight: 500;
             color: white;
+
+            .icon {
+                transform: translateY(0px);
+                transition: 0.5s;
+            }
+
+            .text {
+                transform: translateY(0px);
+                transition: 0.5s;
+            }
+
+            &.active {
+                .icon {
+                    transform: translateY(14px) scale(150%);
+                }
+
+                .text {
+                    transform: translateY(20px);
+                    background-color: #1976d2;
+                    border-radius: 0 0 10px 10px;
+                    padding: 8px;
+                    box-shadow: 1px 2px 1px 0px rgb(0 0 0 / 75%);
+                }
+            }
         }
     }
 }

@@ -3,14 +3,36 @@
     <thead>
         <tr>
             <th>Descrição</th>
-            <th>Valor</th>
+            <th>Preço</th>
+            <th>Data</th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let evento of eventos">
             <td>{{ evento.descricao }}</td>
-            <td>{{ evento.preco }}</td>
+            <td>{{ evento.preco | currency }}</td>
+            <td>{{evento.data | date:'dd/MM/yyyy'}}</td>
+            <td>
+                <button (click)="preencherFormulario(evento)">"Editar"</button>
+                |
+                <button (click)="delete(evento._id)">Excluir</button>
+            </td>
         </tr>
     </tbody>
     
 </table>
+
+<br>
+
+<form>
+    <label>Descrição</label>
+    <input type="text" name="descricao" [(ngModel)]="evento.descricao">
+    <label>Preço</label>
+    <input type="text" name="preco" [(ngModel)]="evento.preco">
+    <label>Data</label>
+    <input type="date" name="data" [(ngModel)]="evento.data">
+    <button (click)="salvar()">Salvar</button>
+</form>
+
+{{evento | json}}
